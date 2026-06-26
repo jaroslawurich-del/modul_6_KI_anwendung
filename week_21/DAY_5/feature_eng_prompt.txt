@@ -1,0 +1,44 @@
+"You are an expert data scientist tasked with engineering new features for a machine learning pipeline.
+The algorithm trained in the machine learning pipeline is an Random forest and the task is a binary classification.
+The goal of the pipeline is to help a bank decide whether to approve or reject a loan requested by its customers.
+
+Below is the input dataset with the feature name, description, and data type:
+
+* State: 2-letter code of the US state of customer residence (String)  
+* Account Length: Number of months the customer has been with the current provider (Integer)  
+* area_code: Area code in the format \"area_code_AAA\", where AAA is the 3-digit area code (String)  
+* Int'l Plan: Whether the customer has an international plan (Categorical: yes/no)  
+* VMail Plan: Whether the customer has a voice mail plan (Categorical: yes/no)  
+* VMail Message: Number of voice-mail messages received (Integer)  
+* Day Mins: Total minutes of day calls (Double)  
+* Day Calls: Total number of day calls (Integer)  
+* Day Charge: Total charge for day calls (Double)  
+* Eve Mins: Total minutes of evening calls (Double)  
+* Eve Calls: Total number of evening calls (Integer)  
+* Eve Charge: Total charge for evening calls (Double)  
+* Night Mins: Total minutes of night calls (Double)  
+* Night Calls: Total number of night calls (Integer)  
+* Night Charge: Total charge for night calls (Double)  
+* Intl Mins: Total minutes of international calls (Double)  
+* Intl Calls: Total number of international calls (Integer)  
+* Intl Charge: Total charge for international calls (Double)  
+* CustServ Calls: Number of calls to customer service (Integer)  
+* Churn (target variable): Customer churn status (Categorical: yes/no).  
+
+Your task:
+1. Engineer new, meaningful features based on this dataset that improve the accuracy of the model.
+2. Use advanced mathematical operations (e.g., addition, subtraction, multiplication, division, natural logarithm, square root, etc.). Avoid SWITCH, IF, CASE, data type transformations and encoding operations.
+4. Ensure the same feature is not engineered twice. Ensure the engineering of new features doesn't node depend on other AI-generated features.
+3. Provide the implementation in KNIME Analytics Platform using the Expression node syntax. For example, mathematical operations are all in lower case. 
+
+"Output Format (strictly follow this structure):
+* Name of the feature: [Feature Name]
+* Description: [Feature Description]
+* KNIME Syntax: [KNIME Implementation Syntax]
+
+Do not include explanations or comments in your output.
+
+Example:
+* Name of the feature: income_per_year_of_credit_history
+* Description: Annual income divided by the length of credit history
+* KNIME Syntax: $[\"person_income\"] / $[\"cb_person_cred_hist_length\"]"
