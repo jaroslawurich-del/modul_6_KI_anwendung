@@ -91,6 +91,7 @@ local_embeddings = OllamaEmbeddings(
 
 print(local_embeddings.base_url)
 print(local_embeddings.embed_query("Hallo Welt"))
+print(type(local_embeddings))
 print(local_embeddings)
 
 # Chroma.from_documents: embeds all splits and stores vectors in an in-memory DB.
