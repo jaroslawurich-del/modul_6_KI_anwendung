@@ -86,17 +86,22 @@ print("4. Creating dense retriever...")
 # fixed-size vector. nomic-embed-text is a small, fast embedding model.
 local_embeddings = OllamaEmbeddings(
     model="nomic-embed-text:latest",
-    #base_url="http://127.0.0.1:11434"
+    base_url="http://127.0.0.1:11434"
     )
 
 print(local_embeddings.base_url)
-
 print(local_embeddings.embed_query("Hallo Welt"))
 print(local_embeddings)
 
 # Chroma.from_documents: embeds all splits and stores vectors in an in-memory DB.
 # On subsequent runs you can persist it to disk with persist_directory="./chroma_db".
 vectorstore = Chroma.from_documents(documents=splits, embedding=local_embeddings)
+
+
+#from langchain_community.vectorstores import FAISS
+#vector_store = FAISS.from_documents(splits, local_embeddings)
+
+
 
 # as_retriever exposes the vector store as a LangChain Retriever interface.
 # search_type="similarity" → cosine / inner-product nearest-neighbour search.
