@@ -15,6 +15,7 @@ Requires:
     pip install rank_bm25 langchain langchain-community langchain-chroma langchain-ollama
 """
 
+
 #%% 1. IMPORTS
 print("1. Importing libraries...")
 
@@ -80,9 +81,18 @@ splits = text_splitter.split_documents(docs)   # splits is a list[Document]
 #%% 4. DENSE RETRIEVER — Chroma + Ollama Embeddings
 print("4. Creating dense retriever...")
 
+
 # OllamaEmbeddings calls the local Ollama server to embed each chunk into a
 # fixed-size vector. nomic-embed-text is a small, fast embedding model.
-local_embeddings = OllamaEmbeddings(model="nomic-embed-text:latest")
+local_embeddings = OllamaEmbeddings(
+    model="nomic-embed-text:latest",
+    #base_url="http://127.0.0.1:11434"
+    )
+
+print(local_embeddings.base_url)
+
+print(local_embeddings.embed_query("Hallo Welt"))
+print(local_embeddings)
 
 # Chroma.from_documents: embeds all splits and stores vectors in an in-memory DB.
 # On subsequent runs you can persist it to disk with persist_directory="./chroma_db".
