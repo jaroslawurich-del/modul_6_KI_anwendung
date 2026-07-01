@@ -1,0 +1,1 @@
+{"recommendation": " To improve your RAG system, focus on enhancing its performance on complex questions (improve Generator) and its ability to handle various topics equally well (adjust Knowledge Base or Retriever). Specifically, consider improving the model's understanding of complex queries and expanding the coverage of topics in the knowledge base."}

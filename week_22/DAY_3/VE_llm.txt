@@ -1,5 +1,3 @@
-Anaconda: https://www.anaconda.com/download
-
 Virtual Environment
 
 In Anaconda Prompt execute:
