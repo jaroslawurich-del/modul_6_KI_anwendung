@@ -5,7 +5,7 @@ from langchain_core.documents import Document
 # Embeddings
 embeddings = OllamaEmbeddings(
     model="nomic-embed-text:latest",
-    base_url="http://127.0.0.1:11434"
+    #base_url="http://127.0.0.1:11434"
 )
 
 # Testdaten

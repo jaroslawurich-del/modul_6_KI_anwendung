@@ -55,7 +55,7 @@ print("2. Loading PDF file...")
 # PyPDFLoader reads the PDF page-by-page and returns a list of Document objects.
 # Each Document has: .page_content (str) and .metadata (dict with source, page num).
 #file_path = "C:\\Users\\milos\\Desktop\\DATA\\Educx\\Modul_6_KI\\KI_Lernplan\\KI_W2_T7\\RAG_chain\\nke-10k-2023.pdf"
-file_path = "nke-10k-2023.pdf"
+file_path = "C:\\DATEN\\educs\\Modul 6 KI-Anwendungen\\modul_6_KI_anwendung\\week_22\\DAY_2\\nke-10k-2023.pdf"
 loader = PyPDFLoader(file_path)
 docs = loader.load()   # docs is a list[Document], one per PDF page
 
@@ -86,7 +86,7 @@ print("4. Creating dense retriever...")
 # fixed-size vector. nomic-embed-text is a small, fast embedding model.
 local_embeddings = OllamaEmbeddings(
     model="nomic-embed-text:latest",
-    base_url="http://127.0.0.1:11434"
+    #base_url="http://127.0.0.1:11434"
     )
 
 print(local_embeddings.base_url)
