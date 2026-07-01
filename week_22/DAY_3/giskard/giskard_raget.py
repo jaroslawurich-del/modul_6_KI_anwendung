@@ -9,12 +9,12 @@ import os
 import warnings
 import pandas as pd
 
+from langchain_ollama import OllamaEmbeddings, OllamaLLM
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import OllamaEmbeddings
-from langchain.chains import ConversationalRetrievalChain
-from langchain.memory import ConversationBufferMemory
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_classic.vectorstores import FAISS
+from langchain_classic.chains import ConversationalRetrievalChain
+from langchain_classic.memory import ConversationBufferMemory
 
 from giskard import Model, scan
 from giskard.rag import (
@@ -60,7 +60,7 @@ pd.set_option("display.max_colwidth", 400)
 warnings.filterwarnings("ignore")
 
 # Load the PDF document containing banking supervision information
-loader = PyPDFLoader(file_path="./banking_supervision_report.pdf")
+loader = PyPDFLoader(file_path="C:/DATEN/educs/Modul 6 KI-Anwendungen/modul_6_KI_anwendung/week_22/DAY_3/giskard/banking_supervision_report.pdf")
 documents = loader.load()  # Extracts all pages as Document objects
 
 # Initialize embedding model for converting text to vectors
@@ -126,7 +126,7 @@ giskard_model = Model(
 scan_report = scan(giskard_model)
 
 # Export scan results to HTML for review
-scan_report.to_html("scan_report.html")
+scan_report.to_html("C:/DATEN/educs/Modul 6 KI-Anwendungen/modul_6_KI_anwendung/week_22/DAY_3/giskard/scan_report.html")
 
 ### Section 4: Test Set Generation
 
@@ -147,10 +147,10 @@ testset = generate_testset(
 )
 
 # Save generated testset to JSONL file for later use
-testset.save("banking_supervision_testset.jsonl")
+testset.save("C:/DATEN/educs/Modul 6 KI-Anwendungen/modul_6_KI_anwendung/week_22/DAY_3/giskard/banking_supervision_testset.jsonl")
 
 # Reload testset from file
-testset = QATestset.load("banking_supervision_testset.jsonl")
+testset = QATestset.load("C:/DATEN/educs/Modul 6 KI-Anwendungen/modul_6_KI_anwendung/week_22/DAY_3/giskard/banking_supervision_testset.jsonl")
 testset.to_pandas().head(5)  # Display first 5 questions
 
 ### Section 5: RAG Evaluation
@@ -189,7 +189,8 @@ rag_report = evaluate(
 )
 
 # Save evaluation results
-rag_report.save("banking_supervision_report")
+rag_report.save("C:/DATEN/educs/Modul 6 KI-Anwendungen/modul_6_KI_anwendung/week_22/DAY_3/giskard/banking_supervision_report")
 
 # Reload the saved report for analysis
-rag_report = RAGReport.load("banking_supervision_report")
+rag_report = RAGReport.load("C:/DATEN/educs/Modul 6 KI-Anwendungen/modul_6_KI_anwendung/week_22/DAY_3/giskard/banking_supervision_report")
+
