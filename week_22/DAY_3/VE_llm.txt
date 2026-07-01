@@ -1,0 +1,25 @@
+Anaconda: https://www.anaconda.com/download
+
+Virtual Environment
+
+In Anaconda Prompt execute:
+
+1.
+conda create -c conda-forge -n llm_env spyder numpy scipy pandas matplotlib python=3.12
+
+2. 
+conda activate llm_env
+
+3. CPU
+pip install torch torchvision torchaudio
+
+or GPU
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+
+4.
+pip install transformers datasets
+
+pip install langchain langchain_chroma langchain_community bs4
+pip install chromadb
+
+pip install pypdf
