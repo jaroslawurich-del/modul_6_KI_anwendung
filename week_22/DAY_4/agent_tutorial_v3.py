@@ -15,7 +15,7 @@ llm = ChatOllama(model='gpt-oss:120b-cloud')
 # Setup search tool
 search = TavilySearch(
     k=3,
-    tavily_api_key="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"
+    tavily_api_key="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"
 )
 
 tools = [search]
