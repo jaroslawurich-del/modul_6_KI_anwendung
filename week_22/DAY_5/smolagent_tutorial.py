@@ -71,7 +71,7 @@ efficiency and performance.'
 
 #%% Custom tools
 
-from smolagents import tool
+from smolagents import tool, CodeAgent, LiteLLMModel
 
 @tool
 def get_weather_by_city(city: str) -> str:
