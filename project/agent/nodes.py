@@ -22,3 +22,12 @@ Frage:
         "answer": res.content,
         "sources": result["sources"]
     }
+
+def summary_node(state):
+    resp = llm.invoke("Fasse zusammen: " + state["question"])
+    return {"answer": resp.content}
+
+
+def translate_node(state):
+    resp = llm.invoke("Translate: " + state["question"])
+    return {"answer": resp.content}
