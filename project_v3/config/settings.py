@@ -34,6 +34,10 @@ UPLOAD_DIR = os.getenv(
     "/app/uploads"
 )
 
+DELETE_DB = bool(
+    os.getenv("DELETE_DB", False)
+)
+
 MAX_RESULTS = int(
     os.getenv("MAX_RESULTS", "4")
 )

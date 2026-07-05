@@ -5,6 +5,7 @@ from rag.splitter import split_documents
 from rag.vectorstore import create_vectorstore
 
 from config.settings import VECTOR_DB_DIR
+from config.settings import DELETE_DB
 
 
 def rebuild_index(documents):
@@ -15,7 +16,7 @@ def rebuild_index(documents):
     # vorhandene DB löschen
     #
 
-    if db.exists():
+    if DELETE_DB and db.exists():
 
         try:
 
