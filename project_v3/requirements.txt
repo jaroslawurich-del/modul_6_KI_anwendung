@@ -1,4 +1,4 @@
-streamlit>=1.36
+streamlit>=1.38
 
 langchain>=0.3.0
 langchain-community>=0.3.0
@@ -6,7 +6,7 @@ langchain-text-splitters>=0.3.0
 langchain-chroma>=0.1.0
 langchain-ollama>=0.2.0
 
-chromadb>=1.0.0
+chromadb>=0.5.0
 
 ollama>=0.3.0
 

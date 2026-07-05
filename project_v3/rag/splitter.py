@@ -6,12 +6,10 @@ from config.settings import (
 )
 
 
-def split_documents(documents):
-
-    splitter = RecursiveCharacterTextSplitter(
-
+splitter = RecursiveCharacterTextSplitter(
         chunk_size=CHUNK_SIZE,
         chunk_overlap=CHUNK_OVERLAP,
     )
 
+def split_documents(documents):
     return splitter.split_documents(documents)

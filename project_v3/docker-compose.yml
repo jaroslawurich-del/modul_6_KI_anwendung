@@ -9,12 +9,13 @@ services:
       - "8501:8501"
     volumes:
       - .:/app
-      - chroma_db:/app/chroma_db
-      - uploads:/app/uploads
+      - ./chroma_db:/app/chroma_db
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    env_file:
+      - .env
     depends_on:
       - ollama
-    environment:
-      - OLLAMA_HOST=http://ollama:11434
 
   ollama:
     image: ollama/ollama:latest
@@ -25,6 +26,4 @@ services:
       - ollama:/root/.ollama
 
 volumes:
-  chroma_db:
-  uploads:
   ollama:
