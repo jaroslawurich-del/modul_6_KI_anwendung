@@ -1,58 +1,69 @@
 import streamlit as st
 
 from agent.nodes import rag_node
+from config.settings import TEMPERATURE
 
 
 def chat_ui():
 
-    st.subheader("Chat 🤖")
+    st.subheader("💬 Chat")
 
     # -----------------------------
-    # MEMORY INIT
+    # Sidebar
+    # -----------------------------
+    st.sidebar.header("⚙️ Einstellungen")
+
+    temperature = st.sidebar.slider(
+        "Temperature",
+        min_value=0.0,
+        max_value=1.0,
+        value=float(st.session_state.get("temperature", TEMPERATURE)),
+        step=0.1,
+        help="Niedrig = präziser, Hoch = kreativer"
+    )
+
+    st.session_state.temperature = temperature
+
+    # -----------------------------
+    # Chat-Historie
     # -----------------------------
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # -----------------------------
-    # SHOW HISTORY
-    # -----------------------------
-    for msg in st.session_state.messages:
-        with st.chat_message(msg["role"]):
-            st.write(msg["content"])
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
     # -----------------------------
-    # INPUT
+    # Eingabe
     # -----------------------------
     question = st.chat_input("Frage stellen...")
 
-    if question:
+    if not question:
+        return
 
-        # User message speichern
-        st.session_state.messages.append(
-            {"role": "user", "content": question}
+    st.session_state.messages.append(
+        {"role": "user", "content": question}
+    )
+
+    with st.chat_message("user"):
+        st.markdown(question)
+
+    with st.spinner("Antwort wird erzeugt..."):
+
+        result = rag_node(
+            {
+                "question": question,
+                "temperature": temperature,
+            }
         )
 
-        with st.chat_message("user"):
-            st.write(question)
+    answer = result["answer"]
 
-        # -----------------------------
-        # RAG PROCESSING
-        # -----------------------------
-        with st.spinner("Denke nach... 🤔"):
+    st.session_state.messages.append(
+        {"role": "assistant", "content": answer}
+    )
 
-            result = rag_node(
-                {
-                    "question": question,
-                    "answer": ""
-                }
-            )
-
-            answer = result["answer"]
-
-        # Assistant message speichern
-        st.session_state.messages.append(
-            {"role": "assistant", "content": answer}
-        )
-
-        with st.chat_message("assistant"):
-            st.write(answer)
+    with st.chat_message("assistant"):
+        #st.markdown(answer)
+        st.write(answer)

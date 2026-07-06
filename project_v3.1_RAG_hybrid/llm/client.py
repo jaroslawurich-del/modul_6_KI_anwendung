@@ -1,6 +1,10 @@
-import os
-from langchain_community.embeddings import OllamaEmbeddings
-from langchain_community.chat_models import ChatOllama
+from langchain_ollama import ChatOllama, OllamaEmbeddings
+
+from config.settings import (
+    OLLAMA_HOST,
+    CHAT_MODEL,
+    EMBED_MODEL,
+)
 
 
 # -----------------------------
@@ -8,17 +12,17 @@ from langchain_community.chat_models import ChatOllama
 # -----------------------------
 def get_embeddings():
     return OllamaEmbeddings(
-        model=os.getenv("EMBED_MODEL", "nomic-embed-text"),
-        base_url=os.getenv("OLLAMA_HOST", "http://ollama:11434")
+        model=EMBED_MODEL,
+        base_url=OLLAMA_HOST,
     )
 
 
 # -----------------------------
 # CHAT LLM
 # -----------------------------
-def get_chat_model():
+def get_chat_model(temperature: float = 0.2):
     return ChatOllama(
-        model=os.getenv("CHAT_MODEL", "llama3.2"),
-        base_url=os.getenv("OLLAMA_HOST", "http://ollama:11434"),
-        temperature=float(os.getenv("TEMPERATURE", 0.2))
+        model=CHAT_MODEL,
+        base_url=OLLAMA_HOST,
+        temperature=temperature,
     )

@@ -8,6 +8,7 @@ from llm.client import get_chat_model  # <-- falls du sowas hast
 
 class AgentState(TypedDict):
     question: str
+    temperature: float
     answer: str
 
 
@@ -37,7 +38,8 @@ Frage:
 """
 
     # 4. LLM call (Ollama / Chat Model)
-    llm = get_chat_model()
+    temperature = state.get("temperature", 0.2)
+    llm = get_chat_model(temperature=temperature)
 
     response = llm.invoke(prompt)
 
