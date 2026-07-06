@@ -1,53 +1,24 @@
-import shutil
-from pathlib import Path
-
 from rag.splitter import split_documents
 from rag.vectorstore import create_vectorstore
 
-from config.settings import VECTOR_DB_DIR
-from config.settings import DELETE_DB
-
 
 def rebuild_index(documents):
+    """
+    Baut den Vektorindex neu auf (sicher für Chroma + Docker + Windows).
+    """
 
-    db = Path(VECTOR_DB_DIR)
+    if not documents:
+        print("⚠️ keine docs")
+        return None
 
-    #
-    # vorhandene DB löschen
-    #
-
-    if DELETE_DB and db.exists():
-
-        try:
-
-            shutil.rmtree(db)
-
-        except PermissionError:
-
-            # Windows-Dateisperre
-            pass
-
-        except OSError:
-
-            # Docker Volume belegt
-            pass
-
-    db.mkdir(
-        parents=True,
-        exist_ok=True
-    )
-
-    #
     # Dokumente splitten
-    #
-
     chunks = split_documents(documents)
 
-    if len(chunks) == 0:
-        return
+    if not chunks:
+        print("⚠️ keine chunks nach splitting")
+        return None
 
-    #
-    # Chroma erzeugen
-    #
+    # Chroma erstellt / updated die DB selbst sicher
+    vectorstore = create_vectorstore(chunks)
 
-    create_vectorstore(chunks)
+    return vectorstore

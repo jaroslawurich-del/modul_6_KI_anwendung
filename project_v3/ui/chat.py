@@ -13,7 +13,7 @@ def chat_ui():
         "Temperature",
         min_value=0.0,
         max_value=1.0,
-        value=float(TEMPERATURE),
+        value=TEMPERATURE,
         step=0.1
     )
 

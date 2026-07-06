@@ -1,22 +1,19 @@
 from rag.retriever import get_retriever
 
 
-def search(question: str):
+def search(query):
 
     retriever = get_retriever()
+    docs = retriever.invoke(query)
 
-    docs = retriever.invoke(question)
+    context = []
+    sources = []
 
-    return docs
+    for d in docs:
+        context.append(d.page_content)
+        sources.append(f"{d.metadata.get('source')} | {d.metadata.get('page')}")
 
-
-def build_context(question: str):
-
-    docs = search(question)
-
-    context = "\n\n".join(
-        doc.page_content
-        for doc in docs
-    )
-
-    return context
+    return {
+        "context": "\n\n".join(context),
+        "sources": sources
+    }

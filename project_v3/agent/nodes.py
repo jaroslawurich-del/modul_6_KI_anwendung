@@ -1,7 +1,7 @@
 from typing import TypedDict
 
 from llm.factory import ModelFactory
-from rag.pipeline import build_context
+from rag.pipeline import search
 
 
 class AgentState(TypedDict):
@@ -12,27 +12,14 @@ class AgentState(TypedDict):
 def rag_node(state: AgentState):
 
     question = state["question"]
-
-    context = build_context(question)
+    result = search(question)
 
     prompt = f"""
-Du bist ein Dokumentenassistent.
+Nutze Kontext:
 
-Beantworte die Frage ausschließlich anhand des folgenden Kontextes.
-
-Falls die Information nicht enthalten ist, antworte:
-
-"Diese Information befindet sich nicht in den Dokumenten."
-
-------------------------
-Kontext:
-
-{context}
-
-------------------------
+{result['context']}
 
 Frage:
-
 {question}
 """
 

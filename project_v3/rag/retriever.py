@@ -8,6 +8,7 @@ def get_retriever():
     db = load_vectorstore()
 
     return db.as_retriever(
+        search_type="similarity",
         search_kwargs={
             "k": MAX_RESULTS
         }

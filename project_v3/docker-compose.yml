@@ -7,13 +7,19 @@ services:
     container_name: ki_assistant_app
     ports:
       - "8501:8501"
+
     volumes:
       - .:/app
-      - ./chroma_db:/app/chroma_db
+      - chroma_data:/data
       - ./uploads:/app/uploads
       - ./logs:/app/logs
+
     env_file:
       - .env
+
+    environment:
+      - VECTOR_DB_DIR=/data/chroma_db
+
     depends_on:
       - ollama
 
@@ -27,3 +33,4 @@ services:
 
 volumes:
   ollama:
+  chroma_data:

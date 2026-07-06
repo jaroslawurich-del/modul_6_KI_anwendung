@@ -26,16 +26,12 @@ CHUNK_OVERLAP = int(
 
 VECTOR_DB_DIR = os.getenv(
     "VECTOR_DB_DIR",
-    "/app/chroma_db"
+    "/data/chroma_db"
 )
 
 UPLOAD_DIR = os.getenv(
     "UPLOAD_DIR",
     "/app/uploads"
-)
-
-DELETE_DB = bool(
-    os.getenv("DELETE_DB", False)
 )
 
 MAX_RESULTS = int(
