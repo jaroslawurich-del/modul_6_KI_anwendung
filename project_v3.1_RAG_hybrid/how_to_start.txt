@@ -1,0 +1,6 @@
+docker compose down
+docker compose up --build
+
+
+docker exec -it ollama_3.1 ollama pull llama3.2
+docker exec -it ollama_3.1 ollama pull nomic-embed-text
