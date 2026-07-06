@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import tech_support_crew; print\\(tech_support_crew.__file__\\)\")",
+      "Bash(python -m pip install -e . --no-deps)",
+      "Bash(\"C:/Users/milos/anaconda3/envs/crewai_env/python.exe\" -m pip install -e . --no-deps)",
+      "Bash(\"C:/Users/milos/anaconda3/envs/crewai_env/python.exe\" -c \"import tech_support_crew; print\\(tech_support_crew.__file__\\); from tech_support_crew.crews.tech_support_crew.tech_support_crew import TechSupportCrew; print\\('import OK'\\)\")"
+    ]
+  }
+}

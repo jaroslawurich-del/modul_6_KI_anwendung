@@ -1,0 +1,21 @@
+resolve_ticket_task:
+  description: >
+    A customer has submitted the following support ticket:
+
+    "{ticket}"
+
+    Determine which domain this ticket belongs to (billing, technical, or
+    account/access). You must NOT write the reply yourself: use your "Delegate work
+    to coworker" tool to hand this ticket to exactly one of your coworkers — the
+    Billing & Payments Support Specialist, the Technical Support Specialist, or the
+    Account & Access Support Specialist — matching the ticket's domain, and have them
+    draft the reply.
+
+    Once you receive their draft, review it critically before accepting it: it must
+    directly answer the customer's question, follow company policy, and be written in
+    a professional, empathetic tone. If it is incomplete or inaccurate, delegate it
+    back to the same specialist with specific feedback for revision before finalizing.
+  expected_output: >
+    The final, customer-ready reply to the ticket: a short greeting, a direct answer
+    to the customer's question with any relevant specifics (amounts, dates, or steps),
+    and a clear statement of next steps if any action is still required.
