@@ -1,118 +1,151 @@
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import Chroma
-from langchain_ollama import OllamaEmbeddings, ChatOllama
-from langchain_core.prompts import ChatPromptTemplate
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.chains import create_retrieval_chain
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-# -----------------------------
-# Load PDF
-# -----------------------------
-loader = PyPDFLoader("./docker-de.pdf")
+from langchain_chroma import Chroma
+from langchain_ollama import OllamaEmbeddings, ChatOllama
+
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+
+# ---------------------------------------------------
+# 1. PDF laden
+# ---------------------------------------------------
+
+PDF_PATH = "./docker-de.pdf"
+
+loader = PyPDFLoader(PDF_PATH)
+
 documents = loader.load()
 
-print("Pages:", len(documents))
+print(f"PDF geladen: {len(documents)} Seiten")
 
-# -----------------------------
-# Split into chunks
-# -----------------------------
-text_splitter = RecursiveCharacterTextSplitter(
+print("\nAuszug:")
+print(documents[0].page_content[:500])
+
+
+# ---------------------------------------------------
+# 2. Text in Chunks teilen
+# ---------------------------------------------------
+
+splitter = RecursiveCharacterTextSplitter(
     chunk_size=1000,
     chunk_overlap=200
 )
 
-chunks = text_splitter.split_documents(documents)
+chunks = splitter.split_documents(documents)
 
-print("Chunks:", len(chunks))
+print(f"\nChunks erstellt: {len(chunks)}")
 
-# -----------------------------
-# Embeddings
-# -----------------------------
+
+# ---------------------------------------------------
+# 3. Embeddings mit Ollama
+# ---------------------------------------------------
+
 embeddings = OllamaEmbeddings(
     model="all-minilm:33m"
 )
 
-# -----------------------------
-# Chroma Vector Store
-# -----------------------------
+
+# ---------------------------------------------------
+# 4. Chroma Vector Store
+# ---------------------------------------------------
+
 vectorstore = Chroma.from_documents(
     documents=chunks,
     embedding=embeddings,
     persist_directory="./chroma_db"
 )
 
-# -----------------------------
-# Retriever
-# -----------------------------
+print("Chroma Vector Store erstellt")
+
+
+# ---------------------------------------------------
+# 5. Retriever Top-6
+# ---------------------------------------------------
+
 retriever = vectorstore.as_retriever(
-    search_kwargs={"k": 6}
+    search_kwargs={
+        "k": 6
+    }
 )
 
-# -----------------------------
-# Prompt
-# -----------------------------
-prompt = ChatPromptTemplate.from_messages(
-    [
-        (
-            "system",
-            """You are a helpful assistant.
 
-Answer using ONLY the provided context.
+# ---------------------------------------------------
+# 6. LLM
+# ---------------------------------------------------
 
-If the answer is not in the document, say:
-"I don't know based on the provided document."
-
-Limit your answer to three sentences.
-
-Context:
-{context}
-"""
-        ),
-        ("human", "{input}")
-    ]
-)
-
-# -----------------------------
-# LLM
-# -----------------------------
 llm = ChatOllama(
     model="mistral",
     temperature=0
 )
 
-# -----------------------------
-# Build RAG Chain
-# -----------------------------
-document_chain = create_stuff_documents_chain(
-    llm,
-    prompt
+
+# ---------------------------------------------------
+# 7. Prompt
+# ---------------------------------------------------
+
+prompt = ChatPromptTemplate.from_template(
+"""
+Du bist ein hilfreicher Assistent.
+
+Beantworte die Frage ausschließlich mit Informationen
+aus dem bereitgestellten Kontext.
+
+Wenn die Antwort nicht im Kontext steht,
+sage:
+"Ich weiß es anhand des Dokuments nicht."
+
+Antwort maximal drei Sätze.
+
+Kontext:
+{context}
+
+Frage:
+{question}
+"""
 )
 
-rag_chain = create_retrieval_chain(
-    retriever,
-    document_chain
+
+# ---------------------------------------------------
+# 8. RAG Pipeline
+# ---------------------------------------------------
+
+def format_docs(docs):
+    return "\n\n".join(
+        doc.page_content
+        for doc in docs
+    )
+
+
+rag_chain = (
+    {
+        "context": retriever | format_docs,
+        "question": RunnablePassthrough()
+    }
+    | prompt
+    | llm
 )
 
-# -----------------------------
-# Chat Loop
-# -----------------------------
-print("\nRAG System Ready!")
-print("Type 'exit' to quit.\n")
+
+# ---------------------------------------------------
+# 9. Chat Loop
+# ---------------------------------------------------
+
+print("\n============================")
+print("RAG System gestartet")
+print("exit / quit / q beendet")
+print("============================")
+
 
 while True:
 
-    question = input("Question: ")
+    question = input("\nFrage: ")
 
     if question.lower() in ["exit", "quit", "q"]:
+        print("Beendet.")
         break
 
-    response = rag_chain.invoke(
-        {
-            "input": question
-        }
-    )
+    answer = rag_chain.invoke(question)
 
-    print("\nAnswer:")
-    print(response["answer"])
-    print()
+    print("\nAntwort:")
+    print(answer.content)

@@ -1,0 +1,15 @@
+"Os": "linux", 
+        "Size": 194606575, 
+        "VirtualSize": 194606575, 
+        "GraphDriver": { 
+            "Name": "aufs", 
+            "Data": null 
+        }, 
+        "RootFS": { 
+            "Type": "layers", 
+            "Layers": [ 
+                "sha256:2714f4a6cdee9d4c987fef019608a4f61f1cda7ccf423aeb8d7d89f745c58b18" 
+            ] 
+        } 
+    } 
+https://riptutorial.com/de/
